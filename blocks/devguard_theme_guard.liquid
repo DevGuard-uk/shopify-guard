@@ -1,0 +1,89 @@
+{% comment %}
+  DevGuard Shopify Theme App Extension - App Embed Block
+  Injects client-side licensing, milestone verification, and anti-tamper safeguards into Shopify storefronts.
+{% endcomment %}
+
+{% if block.settings.project_id != blank %}
+<div id="devguard-shopify-root"
+  data-project-id="{{ block.settings.project_id | escape }}"
+  data-api-url="{{ block.settings.api_url | default: 'https://api.devguard.uk' | escape }}"
+  data-public-key="{{ block.settings.public_key | escape }}"
+  data-fail-safe="{{ block.settings.fail_safe | default: 'open' | escape }}"
+  data-lock-mode="{{ block.settings.lock_mode | default: 'full_lock' | escape }}"
+  style="display:none;"
+  aria-hidden="true">
+</div>
+
+<noscript>
+  {% if block.settings.fail_safe == 'closed' %}
+    <div id="devguard-noscript-warning" class="devguard-noscript-warning" style="background:#fee2e2;color:#991b1b;padding:12px;text-align:center;font-weight:600;font-family:system-ui,sans-serif;border-bottom:1px solid #f87171;">
+      Notice: JavaScript is required to verify operational licensing for this storefront.
+    </div>
+  {% endif %}
+</noscript>
+{% endif %}
+
+{% schema %}
+{
+  "name": "DevGuard Protection",
+  "target": "body",
+  "javascript": "devguard-shopify.js",
+  "stylesheet": "devguard-shopify.css",
+  "settings": [
+    {
+      "type": "text",
+      "id": "project_id",
+      "label": "DevGuard Project ID",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "api_url",
+      "label": "DevGuard API Gateway",
+      "default": "https://api.devguard.uk"
+    },
+    {
+      "type": "text",
+      "id": "public_key",
+      "label": "Ed25519 Public Key (Optional)",
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "fail_safe",
+      "label": "Fail-Safe Mode",
+      "options": [
+        {
+          "value": "open",
+          "label": "Fail Open (Recommended)"
+        },
+        {
+          "value": "closed",
+          "label": "Fail Closed"
+        }
+      ],
+      "default": "open"
+    },
+    {
+      "type": "select",
+      "id": "lock_mode",
+      "label": "Lock Mode",
+      "options": [
+        {
+          "value": "full_lock",
+          "label": "Full Store Lock"
+        },
+        {
+          "value": "checkout_only",
+          "label": "Checkout Only Lock"
+        },
+        {
+          "value": "banner_only",
+          "label": "Warning Banner Only"
+        }
+      ],
+      "default": "full_lock"
+    }
+  ]
+}
+{% endschema %}

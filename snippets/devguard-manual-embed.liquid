@@ -1,0 +1,40 @@
+{% comment %}
+  DevGuard Manual Embed Snippet (devguard-manual-embed.liquid)
+  Manual fallback for Shopify themes when Theme App Extensions (App Embeds) are not utilized.
+
+  Installation:
+  Include right before the closing </body> tag in layout/theme.liquid:
+  {% render 'devguard-manual-embed',
+    project_id: 'your_project_id',
+    api_url: 'https://api.devguard.uk',
+    lock_mode: 'full_lock',
+    fail_safe: 'open'
+  %}
+{% endcomment %}
+
+{%- assign dg_project_id = project_id | default: '' -%}
+{%- assign dg_api_url = api_url | default: 'https://api.devguard.uk' -%}
+{%- assign dg_public_key = public_key | default: '' -%}
+{%- assign dg_fail_safe = fail_safe | default: 'open' -%}
+{%- assign dg_lock_mode = lock_mode | default: 'full_lock' -%}
+
+{%- if dg_project_id != blank -%}
+  <link rel="stylesheet" href="{{ 'devguard-shopify.css' | asset_url }}" media="all">
+  <div id="devguard-shopify-root"
+    data-project-id="{{ dg_project_id | escape }}"
+    data-api-url="{{ dg_api_url | escape }}"
+    data-public-key="{{ dg_public_key | escape }}"
+    data-fail-safe="{{ dg_fail_safe | escape }}"
+    data-lock-mode="{{ dg_lock_mode | escape }}"
+    style="display:none;"
+    aria-hidden="true">
+  </div>
+  <script src="{{ 'devguard-shopify.js' | asset_url }}" defer="defer"></script>
+  <noscript>
+    {% if dg_fail_safe == 'closed' %}
+      <div id="devguard-noscript-warning" class="devguard-noscript-warning" style="background:#fee2e2;color:#991b1b;padding:12px;text-align:center;font-weight:600;font-family:system-ui,sans-serif;border-bottom:1px solid #f87171;">
+        Notice: JavaScript is required to verify operational licensing for this storefront.
+      </div>
+    {% endif %}
+  </noscript>
+{%- endif -%}
