@@ -15,7 +15,7 @@
  *   by upstream API latency or network interruptions
  * - Clean Node.js / Browser dual export for automated testing & CI verification
  *
- * @package @devguard/shopify-guard
+ * @package @devguard-uk/shopify-guard
  * @version 1.0.0
  * @license MIT
  */

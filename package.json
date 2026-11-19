@@ -1,5 +1,5 @@
 {
-  "name": "@devguard/shopify-guard",
+  "name": "@devguard-uk/shopify-guard",
   "version": "1.0.0",
   "description": "DevGuard Shopify Theme App Extension and Liquid Guard for agency milestone protection",
   "main": "assets/devguard-shopify.js",

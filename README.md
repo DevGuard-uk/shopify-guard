@@ -1,4 +1,4 @@
-# DevGuard Shopify Guard (`@devguard/shopify-guard`)
+# DevGuard Shopify Guard (`@devguard-uk/shopify-guard`)
 
 > Official Shopify Theme App Extension and Liquid Guard for agency milestone protection and freelance store handover governance.
 
@@ -12,7 +12,7 @@
 
 When developing bespoke Shopify storefronts, agencies and freelance developers often face milestone payment delays after transferring store ownership or completing theme customizations.
 
-`@devguard/shopify-guard` provides non-invasive, enforceable agency milestone protection designed natively for the Shopify ecosystem:
+`@devguard-uk/shopify-guard` provides non-invasive, enforceable agency milestone protection designed natively for the Shopify ecosystem:
 
 - **Shopify Theme App Extension (App Embed)**: Complies with Shopify's latest Theme App Extension standards. Can be enabled, disabled, and configured directly from the Shopify Theme Editor without modifying underlying theme code.
 - **Manual Liquid Snippet Fallback**: Works on older vintage themes or direct Git-managed theme repositories.
