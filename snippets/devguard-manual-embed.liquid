@@ -6,6 +6,7 @@
   Include right before the closing </body> tag in layout/theme.liquid:
   {% render 'devguard-manual-embed',
     project_id: 'your_project_id',
+    public_key: 'YOUR_ED25519_PUBLIC_KEY',
     api_url: 'https://api.devguard.uk',
     lock_mode: 'full_lock',
     fail_safe: 'open'

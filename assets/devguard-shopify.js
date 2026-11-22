@@ -576,7 +576,8 @@
     }
 
     try {
-      const endpoint = apiUrl + '/api/v1/projects/' + encodeURIComponent(projectId) + '/status';
+      // Browser theme surfaces must use public-status (no Master Secret / apiKey).
+      const endpoint = apiUrl + '/api/v1/projects/' + encodeURIComponent(projectId) + '/public-status';
       const response = await fetchFn(endpoint, {
         method: 'GET',
         headers: {
@@ -589,7 +590,26 @@
         throw new Error('DevGuard API responded with status ' + response.status);
       }
 
-      const data = await response.json();
+      const payload = await response.json();
+      if (!payload || payload.ok === false) {
+        throw new Error((payload && payload.error) || 'Invalid public-status response');
+      }
+
+      // When a publicKey is configured, require a signed payload (full Ed25519 verify lives on static-snippet).
+      const publicKey = config.publicKey || '';
+      if (publicKey && !payload.ed25519Signature) {
+        throw new Error('STATUS_UNSIGNED: Expected ed25519Signature when data-public-key is set');
+      }
+
+      const data = {
+        status: payload.status || 'active',
+        message: payload.message || payload.reason || '',
+        mode: payload.lock_mode || payload.mode || null,
+        allowedDomains: payload.allowedDomains,
+        timestamp: payload.timestamp,
+        ed25519Signature: payload.ed25519Signature,
+        publicKeyConfigured: Boolean(publicKey),
+      };
 
       // Cache fresh result
       setCachedStatus(projectId, data, storage);
